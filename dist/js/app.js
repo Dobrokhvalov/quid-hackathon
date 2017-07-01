@@ -37,6 +37,7 @@ function configState($stateProvider, $urlRouterProvider, $compileProvider) {
         .state('main.main', {
             url: "/",
             templateUrl: "app/views/main.html",
+	    controller: "BondListController as ctrl",
             data: {
                 pageTitle: 'Main'
             }
@@ -57,6 +58,52 @@ angular
     .run(function($rootScope, $state) {
         $rootScope.$state = $state;
     });
+
+angular
+    .module('luna')
+    .controller('BondListController', bondListCtrl);
+
+function bondListCtrl($scope, $rootScope){
+    var ctrl = this;
+    ctrl.bonds = [];
+
+
+    var fromContractToBond = function(obj) {
+	return {
+	    sum: web3.fromWei(obj[0].toNumber(), 'ether'),
+	    date: obj[4].toNumber(),
+	    percent: obj[1].toNumber(),
+	    days: obj[2].toNumber(),
+	    payable: web3.fromWei(obj[3].toNumber(), 'ether'),
+	    qnty: obj[5].toNumber(),
+	    reserveQnty: obj[6].toNumber(),
+	    reserveToken: obj[7]
+	};
+    };
+    
+    var getBond = function(id) {
+	return new Promise(function(resolve, reject) {
+	    console.log("getting bond: ", id);
+	    BondContract.getBond(id).then(function(result) {
+		console.log("bond", result);
+		ctrl.bonds.push(fromContractToBond(result));
+		$scope.$digest();
+		resolve();
+	    });
+	});
+    };
+
+    var init = function() {
+	console.log("initing..");
+	BondContract.getBonds().then(function(result) {
+	    var ids = _.map(result, function(id) { return id.toNumber();});
+	    console.log("ids: ", ids);
+	    _.map(ids, getBond);	    
+	});
+    };
+
+    init();
+}
 
 
 
@@ -114,8 +161,7 @@ function newCtrl($scope, $rootScope){
 	reserve: 0
     };
 
-    
-    
+   
     ctrl.reserveTokens = [ ];
 
 
@@ -127,11 +173,7 @@ function newCtrl($scope, $rootScope){
 	ctrl.reserveSelected = true;
     };
     
-    ctrl.issueBond = function() {
-	console.log("submitting new bond..");
-	console.log(ctrl.loan);
-    };
-
+   
     ctrl.calcLoanSum = function() {
 	ctrl.loan.reserve = ctrl.loan.token.qnty * ctrl.loan.token.price;
 	ctrl.loan.sum = ctrl.loan.reserve * ctrl.reserveRatio;
@@ -155,11 +197,16 @@ function newCtrl($scope, $rootScope){
     ctrl.getTokenBalance= function(t) {
 	return new Promise(function(resolve, reject) {
 	    console.log("token: ", t);
-	    t.contract.balanceOf(ctrl.account).then(function(result) {
-		console.log("got balance");
-		t.balance = result.toNumber();
-		ctrl.reserveTokens.push(t);
-		$scope.$digest();
+	    // how mony ERC20 tokens can transfer BondContract
+	    t.contract.allowance(ctrl.account, BondContract.address).then(function(res) {
+		t.allowed = res.toNumber();
+		
+		t.contract.balanceOf(ctrl.account).then(function(result) {
+		    console.log("got balance");
+		    t.balance = result.toNumber();
+		    ctrl.reserveTokens.push(t);
+		    $scope.$digest();
+		});
 	    });
 	});
     };
@@ -174,6 +221,16 @@ function newCtrl($scope, $rootScope){
 		ctrl.account = d[0];		
 		resolve();
 	    });
+	});
+    };
+
+    // approves all tokens to hold in reserve
+    ctrl.approveReserve = function() {
+	var token = ctrl.loan.token;
+	console.log("trying to approve: ", token.balance);
+	token.contract.approve(BondContract.address, token.balance).then(function() {
+	    alert("Transfer of tokens approved");
+	    token.allowed = token.balance;
 	});
     };
 
@@ -198,15 +255,35 @@ function newCtrl($scope, $rootScope){
 		{contract: TST, name: "TST"},
 		{contract: TST2, name: "TST2"},
 	    ]);
-
+	    
 	    _.map(_tokens, function(t) {
 		ctrl.getTokenBalance(t);
 	    });	
 	});
     };
     init();
-    
+
+
+    // ISSUE BOND
+    ctrl.issueBond = function() {
+	console.log("submitting new bond..");
+	console.log(ctrl.loan);
+	var loan = ctrl.loan;
+	BondContract.issueBond(web3.toWei(ctrl.loan.sum, 'ether'),
+			       loan.percent,
+			       web3.toWei(ctrl.loan.payout, 'ether'),
+			       loan.days,
+			       loan.token.qnty,
+			       loan.token.contract.address,
+			       loan.token.name
+			      )
+	    .then(function(result) {
+		alert("transaction ok!");
+	    });
+    };
+
 }
+
 
 /**
  * LUNA - Responsive Admin Theme

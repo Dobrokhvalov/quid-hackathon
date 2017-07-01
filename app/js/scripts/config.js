@@ -23,6 +23,7 @@ function configState($stateProvider, $urlRouterProvider, $compileProvider) {
         .state('main.main', {
             url: "/",
             templateUrl: "app/views/main.html",
+	    controller: "BondListController as ctrl",
             data: {
                 pageTitle: 'Main'
             }

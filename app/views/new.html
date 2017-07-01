@@ -13,18 +13,14 @@
             <div class="col-md-6">
                 <div class="panel panel-filled">
                     <div class="panel-heading">
-                        <!-- <div panel-tools></div> -->
                         Issue New Bond
                     </div>
                     <div class="panel-body">
-			
-                        <!-- <p>Individual form controls automatically receive some global styling. All textual <code>&lt;input&gt;</code>, <code>&lt;textarea&gt;</code>, and <code>&lt;select&gt;</code> elements with <code>.form-control</code> are set to <code>width: 100%;</code> by default. Wrap labels and controls in <code>.form-group</code> for optimum spacing.</p> -->
 			
                         <form novalidate>
 
 			    <div class="form-group">
 				<label for="exampleInputName"> Reserve Token</label>
-				<!-- <input type="text" class="form-control" id="exampleInputName" placeholder="Name"> -->
 
 				<select class="form-control" ng-options="t.name for t in ctrl.reserveTokens"  ng-change="ctrl.onReserveTokenChange($val)" ng-model="ctrl.selectedToken">
 				</select>
@@ -34,6 +30,11 @@
 			    <div ng-show="ctrl.reserveSelected">
 				<p>
 				    You have:  {{ctrl.selectedToken.balance }} {{ctrl.selectedToken.name }}
+				</p>
+				
+				<p>
+				    Approved To Reserve:  {{ctrl.loan.token.allowed }}
+				     <a class="btn btn-default" ng-click="ctrl.approveReserve()"> Approve all </a>
 				</p>
 
 				<p>
