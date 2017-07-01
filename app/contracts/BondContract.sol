@@ -19,11 +19,17 @@ contract BondContract {
     uint qntyToSale;
     uint reserveTokenQnty;
     address reserveToken;
-    string reserveTokenSymbol; 
+    string reserveTokenSymbol;
+    mapping(address => uint) holdersDct;
   }
 
+  
   mapping (uint => Bond) bondDct;
-  mapping(address => uint[]) userBondsDct;
+  mapping(address => uint[]) issuerBondsDct;
+
+  //  creditor bonds mapping
+  mapping(address => uint[]) creditorBondsDct;
+
   
   
   // CONSTRUCTOR
@@ -68,10 +74,12 @@ contract BondContract {
       }
     } else throw;
 	     
-	     
+    
+    // save bond to mappings
+    issuerBondsDct[msg.sender].push(bondCounter);
     activeBondIds.push(bondCounter);
     bondCounter =  bondCounter + 1;
-
+    
     return true;
   }
 
@@ -102,4 +110,28 @@ contract BondContract {
 	    );
   }
 
+  
+  function buyBond(uint bondId, uint qnty) payable returns (bool ok) {
+    Bond bond = bondDct[bondId];
+    
+    uint sumToPay = bond.loanSum * (qnty/100);
+    if (sumToPay < msg.value) throw; // not enough money
+    
+    // lend money to borrower
+    if (bond.issuer.send(sumToPay)){
+
+      // add msg sendor to bond holders
+      bond.holdersDct[msg.sender] = qnty;
+
+      
+      return true;
+    }  else {
+      return false;
+    }
+
+
+    
+  }
+  
+  
 }

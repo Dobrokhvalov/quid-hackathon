@@ -1,5 +1,5 @@
 {
   "enabled": true,
-  "host": "localhost",
+  "host": "192.168.188.6",
   "port": 8000
 }
