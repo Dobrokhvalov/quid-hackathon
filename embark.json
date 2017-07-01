@@ -1,0 +1,20 @@
+{
+  "contracts": ["app/contracts/**"],
+    "app": {	
+	"css/vendor.css": ["app/css/vendor/**"],
+	"css/app.css": ["app/css/styles/style.css"],
+	"js/vendor.js": ["embark.js", "app/js/angular.min.js", "app/js/jquery.min.js",  "app/js/vendor/**"],
+	"js/app.js": [ "app/js/scripts/app.js", "app/js/scripts/config.js", "app/js/scripts/controllers/*.js", "app/js/scripts/directives/*.js"],
+	"index.html": "app/index.html",
+
+	"app/views/main.html": "app/views/main.html",
+	"app/views/common/content.html": "app/views/common/content.html",
+	"app/views/common/blank.html": "app/views/common/blank.html",
+	"app/views/common/header.html": "app/views/common/header.html",
+	"app/views/common/navigation.html": "app/views/common/navigation.html",
+	"app/views/common/panel_tools.html": "app/views/common/panel_tools.html"
+    },
+  "buildDir": "dist/",
+  "config": "config/",
+  "plugins": {}
+}
