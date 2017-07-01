@@ -1,0 +1,127 @@
+<!-- Main content-->
+<section class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-12">
+		<h1>  New </h1>
+            </div>
+        </div>
+
+	
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-filled">
+                    <div class="panel-heading">
+                        <!-- <div panel-tools></div> -->
+                        Issue New Bond
+                    </div>
+                    <div class="panel-body">
+			
+                        <!-- <p>Individual form controls automatically receive some global styling. All textual <code>&lt;input&gt;</code>, <code>&lt;textarea&gt;</code>, and <code>&lt;select&gt;</code> elements with <code>.form-control</code> are set to <code>width: 100%;</code> by default. Wrap labels and controls in <code>.form-group</code> for optimum spacing.</p> -->
+			
+                        <form novalidate>
+
+			    <div class="form-group">
+				<label for="exampleInputName"> Reserve Token</label>
+				<!-- <input type="text" class="form-control" id="exampleInputName" placeholder="Name"> -->
+
+				<select class="form-control" ng-options="t.name for t in ctrl.reserveTokens"  ng-change="ctrl.onReserveTokenChange($val)" ng-model="ctrl.selectedToken">
+				</select>
+			    </div>
+			    
+
+			    <div ng-show="ctrl.reserveSelected">
+				<p>
+				    You have:  {{ctrl.selectedToken.balance }} {{ctrl.selectedToken.name }}
+				</p>
+
+				<p>
+				   Loan / Reserve: {{ctrl.reserveRatio * 100}} %
+				</p>
+
+
+				<div class="form-group">
+				    <label for="exampleInputName"> Reserve Token Qnty </label>
+				    <input ng-model="ctrl.loan.token.qnty" max={{ctrl.loan.token.balance}} type="number" class="form-control" id="exampleInputName" placeholder="qnty" ng-change="ctrl.calcLoan()">
+				</div>
+				
+				<p>
+				    Rererve Sum, Eth :  {{ ctrl.loan.reserve }}
+				</p>
+
+				<p>
+				    Loan Sum, Eth :  {{ ctrl.loan.sum }} 
+				</p>
+
+				<div class="form-group">
+				    <label for="exampleInputName"> Loan Days</label>
+				    <input ng-model="ctrl.loan.days" type="number" class="form-control" id="exampleInputName" placeholder="Number of days" ng-change="ctrl.calcLoan()">
+				</div>
+				
+				<p>
+				    Loan Sum, Eth :  {{ ctrl.loan.sum }} 
+				</p>
+
+				
+				<div class="form-group">
+				    <label for="exampleInputName"> % Annual</label>
+				    <input ng-model="ctrl.loan.percent" type="number" class="form-control" id="exampleInputName" placeholder="%" ng-change="ctrl.calcLoan()">
+				</div>
+
+				<p>
+				    You will need to pay, Eth :  {{ ctrl.loan.payout }}
+				</p>
+				
+
+				
+				<!-- <div class="form-group">
+				     <label for="exampleInputEmail1">Email address</label> <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+				     </div>
+				     
+				     <div class="form-group"><label for="exampleInputPassword1">Password</label> <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                     <p class="help-block">Example block-level help text here.</p></div>
+				     
+				     
+				     <div><label> <input type="checkbox"> Check me out </label></div> -->
+				
+			    </div>
+
+
+			    <!-- BACK BUTTONS -->
+			    <div class="row">
+				<div class="col-sm-6">
+				    <a ui-sref="main.main" class="btn btn-default"> Back to list </a>
+				</div>
+				
+				<div class="col-sm-6">
+				    <button ng-click="ctrl.issueBond()" class="btn btn-primary pull-right"> Issue</button>
+				</div>
+			    </div>
+			    <!-- BACK BUTTONS ->-
+			    
+                        </form>
+                    </div>
+                </div>
+
+
+
+
+		
+		
+            </div>
+	</div>
+
+
+
+
+	
+    </div>
+    
+	
+	
+
+    </div>
+</section>
+<!-- End main content-->
+

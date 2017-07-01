@@ -1,5 +1,5 @@
 {
-  "contracts": ["app/contracts/**"],
+    "contracts": [ "app/contracts/ERC20.sol", "app/contracts/StandardToken.sol", "app/contracts/TST.sol", "app/contracts/TST2.sol"],
     "app": {	
 	"css/vendor.css": ["app/css/vendor/**"],
 	"css/app.css": ["app/css/styles/style.css"],
@@ -7,12 +7,13 @@
 	"js/app.js": [ "app/js/scripts/app.js", "app/js/scripts/config.js", "app/js/scripts/controllers/*.js", "app/js/scripts/directives/*.js"],
 	"index.html": "app/index.html",
 
-	"app/views/main.html": "app/views/main.html",
+	"app/views/main.html": "app/views/main.html",	
+	"app/views/new.html": "app/views/new.html",
 	"app/views/common/content.html": "app/views/common/content.html",
 	"app/views/common/blank.html": "app/views/common/blank.html",
 	"app/views/common/header.html": "app/views/common/header.html",
 	"app/views/common/navigation.html": "app/views/common/navigation.html",
-	"app/views/common/panel_tools.html": "app/views/common/panel_tools.html"
+	"views/common/panel_tools.html": "views/common/panel_tools.html"
     },
   "buildDir": "dist/",
   "config": "config/",
