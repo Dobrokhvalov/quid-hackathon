@@ -114,14 +114,15 @@ contract BondContract {
   function buyBond(uint bondId, uint qnty) payable returns (bool ok) {
     Bond bond = bondDct[bondId];
     
-    uint sumToPay = bond.loanSum * (qnty/100);
-    if (sumToPay < msg.value) throw; // not enough money
+    uint sumToPay = (qnty * bond.loanSum)/100;
+    //if (sumToPay < msg.value) throw; // not enough money
     
     // lend money to borrower
     if (bond.issuer.send(sumToPay)){
 
       // add msg sendor to bond holders
       bond.holdersDct[msg.sender] = qnty;
+      bond.qntyToSale = bond.qntyToSale - qnty;
 
       
       return true;

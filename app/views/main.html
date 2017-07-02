@@ -25,6 +25,8 @@
 								    
                                     <th> Sum To Pay </th>
 				    <th> Percent </th>
+				    <th> Bonds left </th>
+								    
 				    <th> Qnty </th>
 				    <th> </th>
                                 </tr>
@@ -37,8 +39,15 @@
 					<td> {{ bond.reserveQnty }} {{ bond.reserveToken }}</td>
 					<td> {{ bond.payable }} </td>
 					<td> {{ bond.percent }} </td>
-					<td> {{ bond.qnty }}</td>
-					<td> <button class="btn btn-primary"> Buy </button>  </td>
+					<td> {{ bond.leftQnty }} </td>
+					<td>
+					    <input type="number" ng-model="bond.qnty" class="form-control" ng-max="bond.leftQnty">
+					</td>
+					<td>
+					    
+					    <button ng-if="bond.leftQnty > 0" class="btn btn-primary" ng-click="ctrl.buyBond(bond)"> Buy </button>
+					    
+					</td>
 				    </tr>
                                 </tbody>
                             </table>

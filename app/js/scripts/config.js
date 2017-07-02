@@ -16,7 +16,6 @@ function configState($stateProvider, $urlRouterProvider, $compileProvider) {
         // Main content
         .state('main', {
             abstract: true,
-            // url: "/",
             templateUrl: "app/views/common/content.html"
 
         })
@@ -34,6 +33,13 @@ function configState($stateProvider, $urlRouterProvider, $compileProvider) {
 	    controller: "NewBondController as ctrl",
             data: {
                 pageTitle: 'New Bond'
+            }
+        }).state('main.issuedbonds', {
+            url: "/bonds/issued",
+            templateUrl: "app/views/issued-bonds.html",
+	    controller: "IssuedBondsController as ctrl",
+            data: {
+                pageTitle: 'Issued Bonds'
             }
         })
 }
