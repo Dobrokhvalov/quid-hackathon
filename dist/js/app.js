@@ -31,12 +31,12 @@ function configState($stateProvider, $urlRouterProvider, $compileProvider) {
         // Main content
         .state('main', {
             abstract: true,
-            templateUrl: "views/common/content.html"
+            templateUrl: "app/views/common/content.html"
 
         })
         .state('main.main', {
             url: "/",
-            templateUrl: "views/main.html",
+            templateUrl: "app/views/main.html",
 	    controller: "BondListController as ctrl",
             data: {
                 pageTitle: 'Main'
