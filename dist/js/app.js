@@ -120,13 +120,25 @@ angular
     .module('luna')
     .controller('BondListController', bondListCtrl);
 
-function bondListCtrl($scope, $rootScope, BondService){
+function bondListCtrl($scope, $rootScope, BondService, $state, toastr){
     var ctrl = this;
     ctrl.bonds = [];
     ctrl.account = "";
     
     ctrl.buyBond = function(bond) {
-	BondService.buyBond(bond);
+	try {
+	    BondService.buyBond(bond).then(function(result) {
+		console.log(result);
+		toastr.success('Success! You have bought some bonds!', {});		   
+		$state.go('main.credited');
+	    }).catch(function(err) {
+		toastr.error('Error - Check input params. Error details in the console.');
+		console.log(err);	    
+	    });
+	} catch(err) {
+	    toastr.error('Error - Check input params. Error details in the console.');
+	    console.log(err);	    
+	}	    
     };
     
     // on view load
@@ -333,7 +345,7 @@ function newCtrl($scope, $rootScope, toastr, toastrConfig, BondService, TokenSer
     ctrl.issueBond = function() {
 	try {
 	    BondService.issueBond(ctrl.loan).then(function(result) {		
-		toastr.success('Success - Bond issued!', {});		   
+		toastr.success('Success - Bond issued! Please wait 15s for blockchain update.', {});		   
 		console.log("issued bond: ", result);
 		$state.go('main.issuedbonds');
 	    }).catch(function(err) {

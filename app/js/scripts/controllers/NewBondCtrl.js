@@ -77,7 +77,7 @@ function newCtrl($scope, $rootScope, toastr, toastrConfig, BondService, TokenSer
     ctrl.issueBond = function() {
 	try {
 	    BondService.issueBond(ctrl.loan).then(function(result) {		
-		toastr.success('Success - Bond issued!', {});		   
+		toastr.success('Success - Bond issued! Please wait 15s for blockchain update.', {});		   
 		console.log("issued bond: ", result);
 		$state.go('main.issuedbonds');
 	    }).catch(function(err) {

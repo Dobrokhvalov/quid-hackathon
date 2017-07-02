@@ -10,9 +10,6 @@
                         Issued Bonds
                     </div>
                     <div class="panel-body">
-                        <p>
-                            <!-- The Buttons library for DataTables provides a framework with common options and API that can be used with DataTables, but is also very extensible, recognising that you will likely want to use buttons which perform an action unique to your applications. -->
-                        </p>
                         <div class="table-responsive">
 			    
                             <table id="tableExample3" class="table table-striped table-hover" datatable="" dt-options="dtOptions3">
@@ -38,7 +35,7 @@
 					<td> {{ bond.percent }} </td>
 					<td> {{ bond.leftQnty }} </td>
 					<td>
-					    <button ng-if="bond.leftQnty < 100" class="btn btn-primary" ng-click="ctrl.payOut(bond)"> Pay Out </button>					</td>
+					    <button ng-if="bond.leftQnty < 100 && bond.status === 0" class="btn btn-primary" ng-click="ctrl.payOut(bond)"> Pay Out </button>					</td>
 				    </tr>
                                 </tbody>
                             </table>
