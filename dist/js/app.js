@@ -31,12 +31,12 @@ function configState($stateProvider, $urlRouterProvider, $compileProvider) {
         // Main content
         .state('main', {
             abstract: true,
-            templateUrl: "app/views/common/content.html"
+            templateUrl: "views/common/content.html"
 
         })
         .state('main.main', {
             url: "/",
-            templateUrl: "app/views/main.html",
+            templateUrl: "views/main.html",
 	    controller: "BondListController as ctrl",
             data: {
                 pageTitle: 'Main'
@@ -44,28 +44,28 @@ function configState($stateProvider, $urlRouterProvider, $compileProvider) {
         })
         .state('main.newbond', {
             url: "/bonds/new",
-            templateUrl: "app/views/new.html",
+            templateUrl: "views/new.html",
 	    controller: "NewBondController as ctrl",
             data: {
                 pageTitle: 'New Bond'
             }
         }).state('main.issuedbonds', {
             url: "/bonds/issued",
-            templateUrl: "app/views/issued-bonds.html",
+            templateUrl: "views/issued-bonds.html",
 	    controller: "IssuedBondsController as ctrl",
             data: {
                 pageTitle: 'Issued Bonds'
             }
         }).state('main.credited', {
             url: "/bonds/credited",
-            templateUrl: "app/views/investments.html",
+            templateUrl: "views/investments.html",
 	    controller: "InvestmentsController as ctrl",
             data: {
                 pageTitle: 'Investments'
             }
         }).state('main.balances', {
             url: "/balances",
-            templateUrl: "app/views/balances.html",
+            templateUrl: "views/balances.html",
 	    controller: "BalanceController as ctrl",
             data: {
                 pageTitle: 'Balances'
