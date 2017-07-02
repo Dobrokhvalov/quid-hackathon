@@ -18,9 +18,9 @@ function pageTitle($rootScope, $timeout) {
         link: function(scope, element) {
             var listener = function(event, toState, toParams, fromState, fromParams) {
                 // Default title
-                var title = 'LUNA | AngularJS Responsive WebApp';
+                var title = 'QUID Bonds p2p Market';
                 // Create your own title pattern
-                if (toState.data && toState.data.pageTitle) title = 'LUNA | ' + toState.data.pageTitle;
+                if (toState.data && toState.data.pageTitle) title = 'Quid Bonds p2p Market | ' + toState.data.pageTitle;
                 $timeout(function() {
                     element.text(title);
                 });

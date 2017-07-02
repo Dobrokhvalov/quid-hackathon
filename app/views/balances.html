@@ -1,0 +1,32 @@
+<h1> Balances </h1>
+<section class="content">
+    <div class="container-fluid">
+
+	<div class="row">
+
+	    <div class="col-lg-2 col-xs-6">
+		<div class="panel panel-filled">
+		    
+		    <div class="panel-body">
+			<h2 class="m-b-none">
+			    {{ctrl.eth }} Eth
+			</h2>
+
+		    </div>
+		</div>
+            </div>
+
+
+	    <div class="col-lg-3 col-xs-6" ng-repeat="token in ctrl.tokens">
+		<div class="panel panel-filled">
+		    
+		    <div class="panel-body" style="height:200px;">
+			<h2 class="m-b-none" style="font-size:16px;">
+			    {{token.balance }} {{ token.name}}
+			</h2>
+			<button class="btn btn-primary"  ng-click="ctrl.getTokens(token)"> Get Tokens </button>
+			
+		    </div>
+		</div>
+            </div>
+	</div>

@@ -2,14 +2,13 @@ angular
     .module('luna')
     .controller('NewBondController', newCtrl);
 
-function newCtrl($scope, $rootScope){
+function newCtrl($scope, $rootScope, toastr, toastrConfig, BondService, TokenService, $state){
     var ctrl = this;
     
     ctrl.selectedToken = null;
     ctrl.reserveSelected = false;
-
-    ctrl.reserveRatio = 0.5;
-    
+    ctrl.account = '';
+    ctrl.reserveRatio = 0.5;    
     ctrl.loan = {
 	sum: 0,
 	percent: 0,
@@ -19,10 +18,8 @@ function newCtrl($scope, $rootScope){
 	},
 	payout: 0,
 	reserve: 0
-    };
-
-   
-    ctrl.reserveTokens = [ ];
+    };   
+    ctrl.reserveTokens = [];
 
 
     ctrl.onReserveTokenChange = function() {
@@ -52,94 +49,45 @@ function newCtrl($scope, $rootScope){
 	ctrl.calcPayout();
     };
 
-    ctrl.account = '';
 
-    ctrl.getTokenBalance= function(t) {
-	return new Promise(function(resolve, reject) {
-	    console.log("token: ", t);
-	    // how mony ERC20 tokens can transfer BondContract
-	    t.contract.allowance(ctrl.account, BondContract.address).then(function(res) {
-		t.allowed = res.toNumber();
-		
-		t.contract.balanceOf(ctrl.account).then(function(result) {
-		    console.log("got balance");
-		    t.balance = result.toNumber();
-		    ctrl.reserveTokens.push(t);
-		    $scope.$digest();
-		});
-	    });
-	});
-    };
-
-    ctrl.getAccount = function() {
-
-	return new Promise(function(resolve, reject) {
-	    // get current account
-	    web3.eth.getAccounts(function(err, d) {
-		if (err) { reject(err);
-			 }
-		ctrl.account = d[0];		
-		resolve();
-	    });
-	});
-    };
-
-    // approves all tokens to hold in reserve
-    ctrl.approveReserve = function() {
+    // in order to have borrowers ERC20 tokens in reserve
+    // bond smart-contract must have approval from user to transfer tokens
+    ctrl.approveReserve = function(token) {
 	var token = ctrl.loan.token;
-	console.log("trying to approve: ", token.balance);
-	token.contract.approve(BondContract.address, token.balance).then(function() {
-	    alert("Transfer of tokens approved");
+	
+	TokenService.approveReserve(token).then(function() {
+	    $scope.$digest();
+	    toastr.success('Success! Tokens can be used for reserve now.!', {});		   
 	    token.allowed = token.balance;
 	});
     };
-
     
-    ctrl.prepareTokens = function(tokens) {
-	
-	return _.map(tokens, function(t) {
-	    return {
-		name: t.name,
-		balance: 0,
-		price: 0.001, 
-		qnty: 0,
-		contract: t.contract
-	    };
-	});
-	
-    }
     
     var init = function() {
-	ctrl.getAccount().then(function() {
-	    var _tokens = ctrl.prepareTokens([
-		{contract: TST, name: "TST"},
-		{contract: TST2, name: "TST2"},
-	    ]);
-	    
-	    _.map(_tokens, function(t) {
-		ctrl.getTokenBalance(t);
-	    });	
+	TokenService.getTokens().then(function(tokens) {
+	    ctrl.reserveTokens = tokens;
+	    $scope.$digest();
 	});
     };
+
     init();
 
-
+    
     // ISSUE BOND
     ctrl.issueBond = function() {
-	console.log("submitting new bond..");
-	console.log(ctrl.loan);
-	var loan = ctrl.loan;
-	BondContract.issueBond(web3.toWei(ctrl.loan.sum, 'ether'),
-			       loan.percent,
-			       web3.toWei(ctrl.loan.payout, 'ether'),
-			       loan.days,
-			       loan.token.qnty,
-			       loan.token.contract.address,
-			       loan.token.name
-			      )
-	    .then(function(result) {
-		alert("transaction ok!");
+	try {
+	    BondService.issueBond(ctrl.loan).then(function(result) {		
+		toastr.success('Success - Bond issued!', {});		   
+		console.log("issued bond: ", result);
+		$state.go('main.issuedbonds');
+	    }).catch(function(err) {
+		toastr.error('Error - Check input params. Error details in the console.');
+		console.log(err);
 	    });
+	} catch (err) {
+	    toastr.error('Error - Check input params. Error details in the console.');
+	    console.log(err);	    
+	}
     };
 
 }

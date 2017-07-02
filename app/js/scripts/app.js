@@ -7,7 +7,8 @@
     angular.module('luna', [
         'ui.router',                // Angular flexible routing
         'ui.bootstrap',             // AngularJS native directives for Bootstrap
-        'ngAnimate'                // Angular animations
+        'ngAnimate',                // Angular animations,
+	'toastr'
     ])
 })();
 

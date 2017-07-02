@@ -8,7 +8,8 @@
 
 angular
     .module('luna')
-    .controller('navigationCtrl', navigationCtrl);
+    .controller('navigationCtrl', navigationCtrl)
+    .controller('HeaderCtrl', HeaderCtrl);
 
 function navigationCtrl($scope,$rootScope){
 
@@ -29,5 +30,25 @@ function navigationCtrl($scope,$rootScope){
 
     }
 
+
+}
+
+
+function HeaderCtrl($scope,$rootScope, BondService){
+    var ctrl = this;
+    ctrl.balance = null;
+
+    var init = function() {
+	BondService.getAccount().then(function(acc) {
+	    web3.eth.getBalance(acc, function(err, result) {
+		console.log("balance");
+		ctrl.balance = web3.fromWei(result.toNumber().toPrecision(6), 'ether');
+		$scope.$digest();
+	    });
+	});
+    };
+
+
+    init();
 
 }

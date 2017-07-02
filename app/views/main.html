@@ -7,7 +7,7 @@
 		<div class="panel panel-filled">
                     <div class="panel-heading">
                         <!-- <div panel-tools></div> -->
-                        Bonds to Buy
+                        Bonds to Invest
                     </div>
                     <div class="panel-body">
                         <p>
@@ -22,17 +22,15 @@
                                     <th> Loan Sum</th>
                                     <th> Loan Days</th>
 				    <th> Reserve </th>
-								    
                                     <th> Sum To Pay </th>
 				    <th> Percent </th>
 				    <th> Bonds left </th>
-								    
 				    <th> Qnty </th>
 				    <th> </th>
                                 </tr>
                                 </thead>
                                 <tbody>
-				    <tr ng-repeat="bond in ctrl.bonds">
+				    <tr ng-repeat="bond in ctrl.bonds" ng-if="bond.issuer !== ctrl.account">
 					<td> {{ bond.date }} </td>
 					<td> {{ bond.sum }} </td>
 					<td> {{ bond.days }} </td>
@@ -46,7 +44,7 @@
 					<td>
 					    
 					    <button ng-if="bond.leftQnty > 0" class="btn btn-primary" ng-click="ctrl.buyBond(bond)"> Buy </button>
-					    
+					    <span ng-if="bond.leftQnty === 0"> Sold Out</span>
 					</td>
 				    </tr>
                                 </tbody>

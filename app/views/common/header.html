@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="HeaderCtrl as ctrl">
     <div class="navbar-header">
         <div id="mobile-menu">
             <minimaliza-menu></minimaliza-menu>
@@ -11,13 +11,14 @@
     <div id="navbar" class="navbar-collapse collapse">
         <minimaliza-menu></minimaliza-menu>
         <ul class="nav navbar-nav navbar-right">
-	    <!-- 
 		 <li class=" profil-link">
-                 <a ui-sref="commonviews.login">
-                 <span class="profile-address">luna@company.io</span>
-                 <img src="images/profile.jpg" class="img-circle" alt="">
+                 <a href="#">
+                     <span class="profile-address">
+		     	    {{ ctrl.balance }} &Xi;
+		     </span>
+                     <!-- <img src="images/profile.jpg" class="img-circle" alt=""> -->
                  </a>
-		 </li> -->
+		 </li> 
         </ul>
     </div>
 </div>

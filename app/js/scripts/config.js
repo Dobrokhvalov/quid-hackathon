@@ -41,7 +41,22 @@ function configState($stateProvider, $urlRouterProvider, $compileProvider) {
             data: {
                 pageTitle: 'Issued Bonds'
             }
+        }).state('main.credited', {
+            url: "/bonds/credited",
+            templateUrl: "app/views/investments.html",
+	    controller: "InvestmentsController as ctrl",
+            data: {
+                pageTitle: 'Investments'
+            }
+        }).state('main.balances', {
+            url: "/balances",
+            templateUrl: "app/views/balances.html",
+	    controller: "BalanceController as ctrl",
+            data: {
+                pageTitle: 'Balances'
+            }
         })
+
 }
 
 angular
