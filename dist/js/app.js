@@ -44,28 +44,28 @@ function configState($stateProvider, $urlRouterProvider, $compileProvider) {
         })
         .state('main.newbond', {
             url: "/bonds/new",
-            templateUrl: "views/new.html",
+            templateUrl: "https://dobrokhvalov.github.io/quid-hackathon/app/views/new.html",
 	    controller: "NewBondController as ctrl",
             data: {
                 pageTitle: 'New Bond'
             }
         }).state('main.issuedbonds', {
             url: "/bonds/issued",
-            templateUrl: "views/issued-bonds.html",
+            templateUrl: "https://dobrokhvalov.github.io/quid-hackathon/app/views/issued-bonds.html",
 	    controller: "IssuedBondsController as ctrl",
             data: {
                 pageTitle: 'Issued Bonds'
             }
         }).state('main.credited', {
             url: "/bonds/credited",
-            templateUrl: "views/investments.html",
+            templateUrl: "https://dobrokhvalov.github.io/quid-hackathon/app/views/investments.html",
 	    controller: "InvestmentsController as ctrl",
             data: {
                 pageTitle: 'Investments'
             }
         }).state('main.balances', {
             url: "/balances",
-            templateUrl: "views/balances.html",
+            templateUrl: "https://dobrokhvalov.github.io/quid-hackathon/app/views/balances.html",
 	    controller: "BalanceController as ctrl",
             data: {
                 pageTitle: 'Balances'
